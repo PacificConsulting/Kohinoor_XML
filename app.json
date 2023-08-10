@@ -1,0 +1,107 @@
+{
+  "id": "eaf250f2-556f-4e19-9fc3-ca50220ae5f0",
+  "name": "Kohinoor_XML",
+  "publisher": "Pacific",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "id": "db643212-b7fb-4dd4-b5a8-cb44ac714461",
+      "publisher": "Microsoft",
+      "name": "India GST",
+      "version": "18.3.27240.28751"
+    },
+    {
+      "id": "eae5779e-7797-4c4c-977e-7516652b7a65",
+      "publisher": "Microsoft",
+      "name": "India TDS",
+      "version": "20.6.47024.0"
+    },
+    {
+      "id": "d3c551dd-5903-4194-b153-04ced9d29a2c",
+      "publisher": "Microsoft",
+      "name": "India Tax Base",
+      "version": "21.2.49946.50300"
+    },
+    {
+      "id": "c1eafb3f-e397-468e-bdb4-ecc5c317ca00",
+      "publisher": "Microsoft",
+      "name": "Tax Engine",
+      "version": "18.3.27240.27480"
+    },
+    {
+      "id": "eddcf82e-482c-49d1-836b-ad0284f2c5b0",
+      "publisher": "Microsoft",
+      "name": "India TCS",
+      "version": "18.3.27240.27480"
+    },
+    {
+      "id": "050f6146-bffd-40de-942c-d0dd510ec20f",
+      
+      "publisher": "Microsoft",
+      "name": "India Reports",
+      "version": "18.2.26217.26490"
+    },
+    {
+      "id": "1150dd8d-51da-485a-bd4a-1ee98d78c21a",
+      "publisher": "Microsoft",
+      "name": "Fixed Asset Depreciation for India",
+      "version": "18.2.26217.26490"
+    },
+    {
+      "id": "f1d9b696-156b-4251-b542-34e549fa80e9",
+      "publisher": "Microsoft",
+      "name": "India Voucher Interface",
+      "version": "18.2.26217.26490"
+    },
+    {
+      "id": "695b1e73-2a6c-434c-bc06-621946c1215e",
+      "publisher": "Pacific",
+      "name": "Kohinoor_Sales",
+      "version": "1.0.0.0"
+    },
+    {
+      "id": "b320ec9f-af2e-4ae4-a5be-18d84cf24d01",
+      "publisher": "Pacific",
+      "name": "Kohinoor_Purchase",
+      "version": "1.0.0.0"
+    },
+    {
+      "id": "24937c30-9452-4e24-8995-0bd84fa56b5e",
+      "name": "Kohinoor_Reports",
+      "publisher": "Pacific",
+      "version": "1.0.0.0"
+    },
+    {
+      "id": "47ec39d2-1898-4cb6-92f9-9fddf8cc2c6f",
+      "name": "Kohinoor_E-Invoice",
+      "publisher": "Pacific",
+      "version": "1.0.0.2"
+    }
+    
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "22.0.0.0",
+  "idRanges": [
+    {
+      "from": 51101,
+      "to": 51200
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": true,
+    "includeSourceInSymbolFile": true
+  },
+  "runtime": "11.0",
+  "features": [
+    "NoImplicitWith"
+  ]
+}
