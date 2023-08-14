@@ -41,8 +41,8 @@ codeunit 51102 "Stock Qty"
             repeat
                 ILE.Reset();
                 ILE.SetRange("Item No.", RecItem."No.");
-                //ILE.SetRange("Posting Date", CalcDate('-1D', Today));
-                ILE.SetRange("Posting Date", 20230630D);
+                ILE.SetRange("Posting Date", CalcDate('-1D', Today));
+                //ILE.SetRange("Posting Date", 20230630D);
                 IF ILE.FindSet() then
                     repeat
                         VL.Reset();
@@ -79,14 +79,23 @@ codeunit 51102 "Stock Qty"
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('MT_CUST');
-                        XMLTxt := XmlText.Create(Format(ILE."Global Dimension 1 Code"));
+                        XMLTxt := XmlText.Create(Format('KTVP'));
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
-                        ChildNood := XmlElement.Create('SITECODE_TYPE');
-                        XMLTxt := XmlText.Create(Format(ILE."Location Code"));
-                        ChildNood.Add(XMLTxt);
-                        ParentNood.Add(ChildNood);
+                        IF RecLocation.get(ILE."Location Code") then begin
+                            IF RecLocation.Store then begin
+                                ChildNood := XmlElement.Create('SITECODE_TYPE');
+                                XMLTxt := XmlText.Create(Format(RecLocation.Code));
+                                ChildNood.Add(XMLTxt);
+                                ParentNood.Add(ChildNood);
+                            end else begin
+                                ChildNood := XmlElement.Create('SITECODE_TYPE');
+                                XMLTxt := XmlText.Create(Format('DC'));
+                                ChildNood.Add(XMLTxt);
+                                ParentNood.Add(ChildNood);
+                            end;
+                        end;
 
                         IF RecLocation.get(ILE."Location Code") then;
                         ChildNood := XmlElement.Create('SITECODE_INFO');
@@ -122,7 +131,7 @@ codeunit 51102 "Stock Qty"
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('PARTNO');
-                        XMLTxt := XmlText.Create(Format(''));
+                        XMLTxt := XmlText.Create(Format(RecItem."No. 2")); //Iten No 2
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 

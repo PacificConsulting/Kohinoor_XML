@@ -27,6 +27,7 @@ codeunit 51101 "Sell Out Qty"
         StorageServiceAuth: Codeunit "Storage Service Authorization";
         FileName: Text;
         response: Codeunit "ABS Operation Response";
+        RecLocation: Record 14;
     begin
 
         XMLDoc := XmlDocument.Create();
@@ -64,12 +65,12 @@ codeunit 51101 "Sell Out Qty"
                         RootNode.Add(ParentNood);
 
                         ChildNood := XmlElement.Create('BATCH_NO');
-                        XMLTxt := XmlText.Create(ILE."Serial No.");
+                        XMLTxt := XmlText.Create(Format(SalInvHdr."Posting Date"));
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('MT_CUST');
-                        XMLTxt := XmlText.Create(SalesInvLine."Sell-to Customer No.");
+                        XMLTxt := XmlText.Create('KTVP');
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
@@ -83,10 +84,19 @@ codeunit 51101 "Sell Out Qty"
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
-                        ChildNood := XmlElement.Create('SITECODE_TYPE');
-                        XMLTxt := XmlText.Create(Format(''));
-                        ChildNood.Add(XMLTxt);
-                        ParentNood.Add(ChildNood);
+                        IF RecLocation.get(SalInvHdr."Location Code") then begin
+                            IF RecLocation.Store = true then begin
+                                ChildNood := XmlElement.Create('SITECODE_TYPE');
+                                XMLTxt := XmlText.Create(Format(RecLocation.Code)); //
+                                ChildNood.Add(XMLTxt);
+                                ParentNood.Add(ChildNood);
+                            end else begin
+                                ChildNood := XmlElement.Create('SITECODE_TYPE');
+                                XMLTxt := XmlText.Create(Format('DC')); //
+                                ChildNood.Add(XMLTxt);
+                                ParentNood.Add(ChildNood);
+                            end;
+                        end;
 
                         ChildNood := XmlElement.Create('SITECODE_INFO');
                         XMLTxt := XmlText.Create(Format(SalInvHdr."Shortcut Dimension 2 Code"));
@@ -119,7 +129,7 @@ codeunit 51101 "Sell Out Qty"
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('REGULARITY');
-                        XMLTxt := XmlText.Create(Format(''));
+                        XMLTxt := XmlText.Create(Format('Daily'));// blank 
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
@@ -134,7 +144,7 @@ codeunit 51101 "Sell Out Qty"
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('GTM_CODE');
-                        XMLTxt := XmlText.Create(Format(''));
+                        XMLTxt := XmlText.Create(Format(''));//New Fields Create on Location 
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
