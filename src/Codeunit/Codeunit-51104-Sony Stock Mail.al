@@ -5,7 +5,7 @@ codeunit 51104 "Sony Stock Mail"
         SendMail();
     end;
 
-    procedure SendMail();//(SIH: Record "Sales Invoice Header"; PayMethodCode: Code[10])
+    procedure SendMail();
     var
         Recref: RecordRef;
         TempBlob: Codeunit "Temp Blob";
@@ -46,7 +46,7 @@ codeunit 51104 "Sony Stock Mail"
             //**** Report SaveAsPDF and Attached in Mail
             Clear(SentmailBool);
             //*****SAVE As PDF Code*****
-            StartDate := CalcDate('<-CM>', Today);
+            //StartDate := CalcDate('<-CM>', Today);
             /*
             if StartDate = Today then
                 ILE.SetRange("Posting Date", StartDate, StartDate)
@@ -54,7 +54,7 @@ codeunit 51104 "Sony Stock Mail"
                 ILE.SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
             */
             RItem.Reset();
-            RItem.SetFilter("No.", '%1|%2', 'KTVACI00163', 'KTVITL00598');
+            //RItem.SetFilter("No.", '%1|%2', 'KTVACI00163', 'KTVITL00598');
             Recref.GetTable(RItem);
             TempBlob.CreateOutStream(OutStr);
             Report.SaveAs(Report::"Stock Report Sony", '', ReportFormat::Excel, OutStr, Recref);
