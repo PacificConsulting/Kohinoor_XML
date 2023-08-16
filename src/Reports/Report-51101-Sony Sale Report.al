@@ -13,6 +13,7 @@ report 51101 "Sony Sale Report"
             dataitem(SalesInvoiceLine; "Sales Invoice Line")
             {
                 DataItemLink = "No." = field("No.");
+                DataItemTableView = where(Type = filter('Item'));
                 column(ShortcutDimension1Code; "Shortcut Dimension 1 Code")
                 {
                 }
@@ -55,10 +56,25 @@ report 51101 "Sony Sale Report"
                         IF State.Get(SIH.State) then;
                     IF RecLocation.Get(SalesInvoiceLine."Store No.") then;
                 end;
+
+                trigger OnPreDataItem()
+                begin
+
+                    StartDate := CalcDate('<-CM>', Today);
+
+                    if StartDate = Today then
+                        SetRange("Posting Date", StartDate, StartDate)
+                    else
+                        SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
+
+                    // StartDate := 20230803D;
+                    // SetRange("Posting Date", StartDate);
+                end;
             }
             dataitem("Sales Cr.Memo Line"; "Sales Cr.Memo Line")
             {
                 DataItemLink = "No." = field("No.");
+                DataItemTableView = where(Type = filter('Item'));
                 column(ShortcutDimension1CodeCR; "Shortcut Dimension 1 Code")
                 {
                 }
@@ -89,7 +105,7 @@ report 51101 "Sony Sale Report"
                 column(StoreNameCR; RecLocation.Name)
                 {
                 }
-                column(SalesTypeCR; SalesTypeCR)
+                column(SalesTypeCR; SalesType)
                 {
                 }
                 trigger OnAfterGetRecord()
@@ -99,6 +115,20 @@ report 51101 "Sony Sale Report"
                     IF SCH.get("Sales Cr.Memo Line"."Document No.") then
                         IF StateCR.Get(SCH.State) then;
                     IF RecLocationCR.Get("Sales Cr.Memo Line"."Store No.") then;
+                end;
+
+                trigger OnPreDataItem()
+                begin
+
+                    StartDate := CalcDate('<-CM>', Today);
+                    if StartDate = Today then
+                        SetRange("Posting Date", StartDate, StartDate)
+                    else
+                        SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
+
+
+                    // StartDate := 20230803D;
+                    // SetRange("Posting Date", StartDate);
                 end;
             }
         }
@@ -130,4 +160,5 @@ report 51101 "Sony Sale Report"
         RecLocationCR: Record 14;
         StateCR: Record State;
         SalesTypeCR: Text;
+        StartDate: Date;
 }
