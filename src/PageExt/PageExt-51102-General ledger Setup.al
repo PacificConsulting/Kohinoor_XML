@@ -6,7 +6,6 @@ pageextension 51102 "Gen ledger Setup" extends "General Ledger Setup"
         {
             group("Sony Sales Email Setup")
             {
-
                 field("Sony Sales Email To"; Rec."Sony Sales Email To")
                 {
                     ApplicationArea = All;

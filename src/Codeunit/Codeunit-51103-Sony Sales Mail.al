@@ -36,6 +36,8 @@ codeunit 51103 "Sony Sales Mail"
         GL.Get();
         VarRecipient.RemoveRange(1, VarRecipient.Count);
         VarRecipientCC.RemoveRange(1, VarRecipientCC.Count);
+        GL.TestField("Sony Sales Email To");
+        GL.TestField("Sony Sales Email CC");
         VarRecipient.Add(GL."Sony Sales Email To");
         VarRecipientCC.Add(GL."Sony Sales Email CC");
         //**** Email Create ****     
@@ -82,7 +84,7 @@ codeunit 51103 "Sony Sales Mail"
             Emailmessage.AppendToBody('<p><font face="Georgia"> <B>!!!Greetings!!!</B></font></p>');
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody(FORMAT(Char));
-            Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Please find enclosed Tax Invoice.</BR></font></p>');
+            Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Please find enclosed Sony Sale data.</BR></font></p>');
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Thanking you,</BR></font></p>');

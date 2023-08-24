@@ -54,6 +54,7 @@ codeunit 51104 "Sony Stock Mail"
                 ILE.SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
             */
             RItem.Reset();
+            RItem.SetRange("Category 1", 'SONY');
             //RItem.SetFilter("No.", '%1|%2', 'KTVACI00163', 'KTVITL00598');
             Recref.GetTable(RItem);
             TempBlob.CreateOutStream(OutStr);
@@ -70,7 +71,7 @@ codeunit 51104 "Sony Stock Mail"
             Emailmessage.AppendToBody('<p><font face="Georgia"> <B>!!!Greetings!!!</B></font></p>');
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody(FORMAT(Char));
-            Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Please find enclosed Tax Invoice.</BR></font></p>');
+            Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Please find enclosed Sony Stock datas.</BR></font></p>');
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody(FORMAT(Char));
             Emailmessage.AppendToBody('<p><font face="Georgia"><BR>Thanking you,</BR></font></p>');

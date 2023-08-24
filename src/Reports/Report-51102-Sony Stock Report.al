@@ -9,7 +9,7 @@ report 51102 "Stock Report Sony"
 
         dataitem(Item; Item)
         {
-            //DataItemTableView = where("Category 1" = filter('SONY'));
+            DataItemTableView = where("Category 1" = filter('SONY'));
             column(GlobalDimension1Code_Item; "Global Dimension 1 Code")
             {
             }
@@ -41,13 +41,15 @@ report 51102 "Stock Report Sony"
             trigger OnPreDataItem()
 
             begin
+
                 StartDate := CalcDate('<-CM>', Today);
                 if StartDate = Today then
                     SetRange("Date Filter", StartDate, StartDate)
                 else
                     SetRange("Date Filter", StartDate, CalcDate('-1D', Today));
+
                 // StartDate := 20230630D;
-                // Edate := 20230721D;
+                //Edate := 20230721D;
                 SetRange("Date Filter", StartDate, Edate);
                 StartDate := Item.GETRANGEMIN(Item."Date Filter");
                 EDate := Item.GETRANGEMAX(Item."Date Filter");
