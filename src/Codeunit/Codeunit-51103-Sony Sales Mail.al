@@ -39,11 +39,19 @@ codeunit 51103 "Sony Sales Mail"
         GL.TestField("Sony Sales Email To");
         GL.TestField("Sony Sales Email CC");
         VarRecipient.Add(GL."Sony Sales Email To");
+        VarRecipient.Add(GL."Sony Sales Email To2");
+        VarRecipient.Add(GL."Sony Sales Email To3");
+        VarRecipient.Add(GL."Sony Sales Email To4");
+        VarRecipient.Add(GL."Sony Sales Email To5");
         VarRecipientCC.Add(GL."Sony Sales Email CC");
+        VarRecipientCC.Add(GL."Sony Sales Email CC2");
+        VarRecipientCC.Add(GL."Sony Sales Email CC3");
+        VarRecipientCC.Add(GL."Sony Sales Email CC4");
+        VarRecipientCC.Add(GL."Sony Sales Email CC5");
         //**** Email Create ****     
         VCount := VarRecipient.Count();
         IF VCount <> 0 then begin
-            Emailmessage.Create(VarRecipient, 'Sony Stock ' + ' Dated ' + FORMAT(CalcDate('-1D', Today)), '', true, VarRecipientCC, VarRecipientBCC);
+            Emailmessage.Create(VarRecipient, 'Sony Sales ' + ' Dated ' + FORMAT(CalcDate('-1D', Today)), '', true, VarRecipientCC, VarRecipientBCC);
             //**** Report SaveAsPDF and Attached in Mail
             Clear(SentmailBool);
             //*****SAVE As PDF Code*****

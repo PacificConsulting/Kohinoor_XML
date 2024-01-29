@@ -42,14 +42,18 @@ codeunit 51102 "Stock Qty"
 
         RecItem.Reset();
         RecItem.SetRange("Category 1", 'LG');
+        //RecItem.SetRange("No.", 'KTVACC00326');
         IF RecItem.FindSet() then
             repeat
                 ILE.Reset();
+                ILE.SetCurrentKey("Item No.", "Remaining Quantity");
                 ILE.SetRange("Item No.", RecItem."No.");
-                ILE.SetRange("Posting Date", CalcDate('-1D', Today));
+                ILE.SETFILTER("Remaining Quantity", '<>%1', 0);
+                //        ILE.SetRange("Posting Date", CalcDate('-1D', Today));
                 IF ILE.FindSet() then
                     repeat
                         VL.Reset();
+                        VL.SetCurrentKey("Document No.", "Item No.");
                         VL.SetRange("Document No.", SalesInvLine."Document No.");
                         VL.SetRange("Item No.", SalesInvLine."No.");
                         if VL.FindFirst() then begin
@@ -73,12 +77,15 @@ codeunit 51102 "Stock Qty"
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('STOCK_DATE');
-                        XMLTxt := XmlText.Create(FORMAT(ILE."Posting Date", 0, '<Year4><month,2><Day,2>'));
+                        XMLTxt := XmlText.Create(FORMAT(Today, 0, '<Year4><month,2><Day,2>'));
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
                         ChildNood := XmlElement.Create('SITECODE');
-                        XMLTxt := XmlText.Create(Format(ILE."Global Dimension 1 Code"));
+                        if ILE."Global Dimension 1 Code" = 'NAVI MUMBAI' then
+                            XMLTxt := XmlText.Create('NAV MUM')
+                        else
+                            XMLTxt := XmlText.Create(Format(ILE."Global Dimension 1 Code"));
                         ChildNood.Add(XMLTxt);
                         ParentNood.Add(ChildNood);
 
@@ -178,19 +185,21 @@ codeunit 51102 "Stock Qty"
                         ParentNood.Add(ChildNood);
                     until ILE.Next() = 0;
             until RecItem.next() = 0;
+
         TB.CreateInStream(Istr);
         TB.CreateOutStream(Ostr);
         XMLDoc.WriteTo(Ostr);
         Ostr.WriteText(WriteTxt);
         Istr.ReadText(WriteTxt);
-        ReadTXT := 'KTVP_Stock_Qty.XML' + '_' + Format(Today);
+        ReadTXT := 'KTVP_Stock_Qty' + '_' + Format(Today) + '.XML';
         //DownloadFromStream(Istr, '', '', '', ReadTXT);
-
         ABSCSetup.Get();
         //ABSCSetup.TestField("Container Name Demo");
         Authorization := StorageServiceAuth.CreateSharedKey(ABSCSetup."Access key");
-        ABSBlobClient.Initialize(ABSCSetup."Account Name", 'lgstockqty', Authorization);
+        ABSBlobClient.Initialize(ABSCSetup."Account Name", 'demofiles', Authorization);
         FileName := ReadTXT;
-        response := ABSBlobClient.PutBlobBlockBlobStream(FileName, Istr);
+        DownloadFromStream(Istr, '', '', '', ReadTXT);
+        //response := ABSBlobClient.PutBlobBlockBlobStream(FileName, Istr);
+        Message('File generated');
     end;
 }

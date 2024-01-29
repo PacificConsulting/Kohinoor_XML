@@ -26,19 +26,25 @@ report 51101 "Sony Sale Report"
                 column(PostingDate_SalesInvoiceLine; "Posting Date")
                 {
                 }
-                column(No_SalesInvoiceLine; "No.")
+                column(No_SalesInvoiceLine; Item."No. 2")
                 {
                 }
-                column(Description_SalesInvoiceLine; Description)
+                column(Description_SalesInvoiceLine; Item.Description)
                 {
                 }
                 column(Quantity_SalesInvoiceLine; Quantity)
                 {
                 }
-                column(City; SIH."Sell-to City")
+                /* column(City; SIH."Sell-to City")
                 {
                 }
                 column(StateName; State.Description)
+                {
+                } */
+                column(City; RecLocation.City)
+                {
+                }
+                column(StateName; LocState.Description)
                 {
                 }
                 column(StoreName; RecLocation.Name)
@@ -49,26 +55,48 @@ report 51101 "Sony Sale Report"
 
                 }
                 trigger OnAfterGetRecord()
+                var
+
                 begin
                     Clear(SalesType);
                     SalesType := 'Sales Order';
                     IF SIH.get(SalesInvoiceLine."Document No.") then
                         IF State.Get(SIH.State) then;
-                    IF RecLocation.Get(SalesInvoiceLine."Store No.") then;
+                    IF RecLocation.Get(SalesInvoiceLine."Store No.") then
+                        if LocState.Get(RecLocation."State Code") then; //pcpl-06429sep2023
+
+
                 end;
 
                 trigger OnPreDataItem()
                 begin
+                    /*
+                                        StartDate := CalcDate('<-CM>', Today);
 
-                    StartDate := CalcDate('<-CM>', Today);
+                                        if StartDate = Today then
+                                            SetRange("Posting Date", StartDate, StartDate)
+                                        else
+                                            SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
 
-                    if StartDate = Today then
-                        SetRange("Posting Date", StartDate, StartDate)
-                    else
+                                        // StartDate := 20230803D;
+                                        // SetRange("Posting Date", StartDate);
+                                        */
+
+                    TD := TODAY;
+                    StartDate := CALCDATE('<-CM>', TD);
+                    IF StartDate = TD THEN BEGIN
+
+                        //MESSAGE('TODAY' + FORMAT(TD));
+                        StartDate := CALCDATE('-1M', StartDate);
+                        //MESSAGE('StartDate' + FORMAT(StartDate));
+                        //MESSAGE('EndtDate' + FORMAT(CALCDATE('-1D', TD)));
+                        SetRange("Posting Date", StartDate, CALCDATE('-1D', TD))
+                    END ELSE BEGIN
+                        //MESSAGE('StartDay' + FORMAT(StartDate));
                         SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
+                        //MESSAGE('EndDay' + FORMAT(CALCDATE('-1D', TD)));
+                    END;
 
-                    // StartDate := 20230803D;
-                    // SetRange("Posting Date", StartDate);
                 end;
             }
             dataitem("Sales Cr.Memo Line"; "Sales Cr.Memo Line")
@@ -87,19 +115,25 @@ report 51101 "Sony Sale Report"
                 column(Posting_Date_CR; "Posting Date")
                 {
                 }
-                column(No_CR; "No.")
+                column(No_CR; Item."No. 2")
                 {
                 }
-                column(Description_CR; Description)
+                column(Description_CR; Item.Description)
                 {
                 }
                 column(Quantity_CR; Quantity)
                 {
                 }
-                column(CityCR; SIH."Sell-to City")
+                /*  column(CityCR; SIH."Sell-to City")
+                 {
+                 }
+                 column(StateNameCR; State.Description)
+                 {
+                 } */
+                column(CityCR; RecLocationCR.City) //pcpl-064 29sep2023
                 {
                 }
-                column(StateNameCR; State.Description)
+                column(StateNameCR; LocState_1.Description)  //pcpl-064 29sep2023
                 {
                 }
                 column(StoreNameCR; RecLocation.Name)
@@ -114,21 +148,39 @@ report 51101 "Sony Sale Report"
                     SalesType := 'Returned order';
                     IF SCH.get("Sales Cr.Memo Line"."Document No.") then
                         IF StateCR.Get(SCH.State) then;
-                    IF RecLocationCR.Get("Sales Cr.Memo Line"."Store No.") then;
+                    // IF RecLocationCR.Get("Sales Cr.Memo Line"."Store No.") then;
+                    IF RecLocationCR.Get("Sales Cr.Memo Line"."Store No.") then
+                        if LocState_1.Get(RecLocationCR."State Code") then; //pcpl-06429sep2023
+
                 end;
 
                 trigger OnPreDataItem()
                 begin
+                    /*
+                                        StartDate := CalcDate('<-CM>', Today);
+                                        if StartDate = Today then
+                                            SetRange("Posting Date", StartDate, StartDate)
+                                        else
+                                            SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
 
-                    StartDate := CalcDate('<-CM>', Today);
-                    if StartDate = Today then
-                        SetRange("Posting Date", StartDate, StartDate)
-                    else
+
+                                        // StartDate := 20230803D;
+                                        // SetRange("Posting Date", StartDate);
+                                        */
+                    TD := TODAY;
+                    StartDate := CALCDATE('<-CM>', TD);
+                    IF StartDate = TD THEN BEGIN
+
+                        //MESSAGE('TODAY' + FORMAT(TD));
+                        StartDate := CALCDATE('-1M', StartDate);
+                        //MESSAGE('StartDate' + FORMAT(StartDate));
+                        //MESSAGE('EndtDate' + FORMAT(CALCDATE('-1D', TD)));
+                        SetRange("Posting Date", StartDate, CALCDATE('-1D', TD))
+                    END ELSE BEGIN
+                        //MESSAGE('StartDay' + FORMAT(StartDate));
                         SetRange("Posting Date", StartDate, CalcDate('-1D', Today));
-
-
-                    // StartDate := 20230803D;
-                    // SetRange("Posting Date", StartDate);
+                        //MESSAGE('EndDay' + FORMAT(CALCDATE('-1D', TD)));
+                    END;
                 end;
             }
         }
@@ -161,4 +213,7 @@ report 51101 "Sony Sale Report"
         StateCR: Record State;
         SalesTypeCR: Text;
         StartDate: Date;
+        LocState: record State;
+        LocState_1: record State;
+        TD: Date;
 }

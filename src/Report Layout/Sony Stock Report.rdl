@@ -424,7 +424,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!Qty.Value</Value>
+                                  <Value>=Sum(Fields!Quantity.Value)</Value>
                                   <Style>
                                     <FontFamily>Calibri</FontFamily>
                                     <FontSize>11pt</FontSize>
@@ -468,7 +468,13 @@
                   <KeepWithGroup>After</KeepWithGroup>
                 </TablixMember>
                 <TablixMember>
-                  <Group Name="Details" />
+                  <Group Name="Details">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!No_Item.Value</GroupExpression>
+                      <GroupExpression>=Fields!Site.Value</GroupExpression>
+                      <GroupExpression>=Fields!Location.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
@@ -533,32 +539,26 @@ End Function
   <DataSets>
     <DataSet Name="DataSet_Result">
       <Fields>
-        <Field Name="GlobalDimension1Code_Item">
-          <DataField>GlobalDimension1Code_Item</DataField>
+        <Field Name="GlobalDimension1Code_ItemLedgerEntry">
+          <DataField>GlobalDimension1Code_ItemLedgerEntry</DataField>
         </Field>
-        <Field Name="GlobalDimension2Code_Item">
-          <DataField>GlobalDimension2Code_Item</DataField>
+        <Field Name="GlobalDimension2Code_ItemLedgerEntry">
+          <DataField>GlobalDimension2Code_ItemLedgerEntry</DataField>
         </Field>
-        <Field Name="No_Item">
-          <DataField>No_Item</DataField>
+        <Field Name="LocationCode_ItemLedgerEntry">
+          <DataField>LocationCode_ItemLedgerEntry</DataField>
         </Field>
-        <Field Name="Description_Item">
-          <DataField>Description_Item</DataField>
+        <Field Name="ItemNo_ItemLedgerEntry">
+          <DataField>ItemNo_ItemLedgerEntry</DataField>
+        </Field>
+        <Field Name="Description_ItemLedgerEntry">
+          <DataField>Description_ItemLedgerEntry</DataField>
         </Field>
         <Field Name="Qty">
           <DataField>Qty</DataField>
         </Field>
         <Field Name="QtyFormat">
           <DataField>QtyFormat</DataField>
-        </Field>
-        <Field Name="Location">
-          <DataField>Location</DataField>
-        </Field>
-        <Field Name="Site">
-          <DataField>Site</DataField>
-        </Field>
-        <Field Name="WH">
-          <DataField>WH</DataField>
         </Field>
       </Fields>
       <Query>

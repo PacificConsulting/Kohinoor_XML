@@ -38,7 +38,15 @@ codeunit 51104 "Sony Stock Mail"
         VarRecipient.RemoveRange(1, VarRecipient.Count);
         VarRecipientCC.RemoveRange(1, VarRecipientCC.Count);
         VarRecipient.Add(GL."Sony Sales Email To");
+        VarRecipient.Add(GL."Sony Sales Email To2");
+        VarRecipient.Add(GL."Sony Sales Email To3");
+        VarRecipient.Add(GL."Sony Sales Email To4");
+        VarRecipient.Add(GL."Sony Sales Email To5");
         VarRecipientCC.Add(GL."Sony Sales Email CC");
+        VarRecipientCC.Add(GL."Sony Sales Email CC2");
+        VarRecipientCC.Add(GL."Sony Sales Email CC3");
+        VarRecipientCC.Add(GL."Sony Sales Email CC4");
+        VarRecipientCC.Add(GL."Sony Sales Email CC5");
         //**** Email Create ****     
         VCount := VarRecipient.Count();
         IF VCount <> 0 then begin
